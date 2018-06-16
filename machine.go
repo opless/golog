@@ -65,7 +65,7 @@ import (
 
 	"github.com/opless/golog/prelude"
 	"github.com/opless/golog/read"
-	"github.com/opless/ps"
+	"github.com/mndrix/ps"
 )
 
 // NoBarriers error is returned when trying to access a cut barrier that

@@ -7,7 +7,7 @@ import . "github.com/opless/golog/util"
 import (
 	"bytes"
 
-	"github.com/opless/ps"
+	"github.com/mndrix/ps"
 )
 
 // Database is an immutable Prolog database.  All write operations on the

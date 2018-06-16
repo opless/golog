@@ -4,7 +4,7 @@ import (
 	"strconv"
 
 	"github.com/opless/golog/term"
-	"github.com/opless/ps"
+	"github.com/mndrix/ps"
 )
 
 // clauses represents an ordered list of terms with
