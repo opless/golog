@@ -3,10 +3,13 @@ package util
 import "fmt"
 import "os"
 
-type PanicThrowerFunc func(err string)
+// PanicThrowerFunc ...
+type PanicThrowerFunc func(err error)
 
+// ErrorThrower ...
 var ErrorThrower PanicThrowerFunc = nil
 
+// MaybePanic ...
 func MaybePanic(err error) {
 	if err != nil {
 		if ErrorThrower == nil {
@@ -17,6 +20,7 @@ func MaybePanic(err error) {
 	}
 }
 
+// Debugging ...
 func Debugging() bool {
 	return os.Getenv("GOLOG_DEBUG") != ""
 }
