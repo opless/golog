@@ -1,13 +1,13 @@
 package golog
 
 import . "fmt"
-import . "github.com/mndrix/golog/term"
-import . "github.com/mndrix/golog/util"
+import . "github.com/opless/golog/term"
+import . "github.com/opless/golog/util"
 
 import (
 	"bytes"
 
-	"github.com/mndrix/ps"
+	"github.com/opless/ps"
 )
 
 // Database is an immutable Prolog database.  All write operations on the

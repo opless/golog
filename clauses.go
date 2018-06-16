@@ -3,8 +3,8 @@ package golog
 import (
 	"strconv"
 
-	"github.com/mndrix/golog/term"
-	"github.com/mndrix/ps"
+	"github.com/opless/golog/term"
+	"github.com/opless/ps"
 )
 
 // clauses represents an ordered list of terms with

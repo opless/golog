@@ -3,9 +3,17 @@ package util
 import "fmt"
 import "os"
 
+type PanicThrowerFunc func(err string)
+
+var ErrorThrower PanicThrowerFunc = nil
+
 func MaybePanic(err error) {
 	if err != nil {
-		panic(err)
+		if ErrorThrower == nil {
+			panic(err)
+		} else {
+			ErrorThrower(err)
+		}
 	}
 }
 

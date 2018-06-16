@@ -3,8 +3,8 @@ package golog
 import "fmt"
 import "strconv"
 import "testing"
-import "github.com/mndrix/golog/read"
-import "github.com/mndrix/golog/term"
+import "github.com/opless/golog/read"
+import "github.com/opless/golog/term"
 
 func BenchmarkTrue(b *testing.B) {
 	m := NewMachine()

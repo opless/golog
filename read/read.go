@@ -10,8 +10,8 @@ import (
 	"io"
 	"strings"
 
-	"github.com/mndrix/golog/lex"
-	"github.com/mndrix/golog/term"
+	"github.com/opless/golog/lex"
+	"github.com/opless/golog/term"
 )
 
 // NoMoreTerms is returned by Next() when it can read no more terms

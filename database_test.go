@@ -1,8 +1,8 @@
 package golog
 
-import . "github.com/mndrix/golog/term"
+import . "github.com/opless/golog/term"
 
-import "github.com/mndrix/golog/read"
+import "github.com/opless/golog/read"
 
 import "testing"
 

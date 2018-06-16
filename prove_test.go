@@ -3,7 +3,7 @@ package golog
 import (
 	"testing"
 
-	"github.com/mndrix/golog/term"
+	"github.com/opless/golog/term"
 )
 
 func TestFacts(t *testing.T) {
