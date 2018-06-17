@@ -63,9 +63,9 @@ import (
 	"strconv"
 	"strings"
 
+	"github.com/mndrix/ps"
 	"github.com/opless/golog/prelude"
 	"github.com/opless/golog/read"
-	"github.com/mndrix/ps"
 )
 
 // NoBarriers error is returned when trying to access a cut barrier that
@@ -267,6 +267,7 @@ func (m *machine) Consult(text interface{}) Machine {
 			continue
 		}
 		m1.db = m1.db.Assertz(t)
+		fmt.Println("Added Term:", t)
 	}
 	return m1
 }
