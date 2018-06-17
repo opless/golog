@@ -12,6 +12,7 @@ var ErrorThrower PanicThrowerFunc = nil
 // MaybePanic ...
 func MaybePanic(err error) {
 	if err != nil {
+		fmt.Println("Panic", err)
 		if ErrorThrower == nil {
 			panic(err)
 		} else {
