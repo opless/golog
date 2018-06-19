@@ -47,10 +47,13 @@ func NewCode(c rune) *Integer {
 	return (*Integer)(big.NewInt(int64(c)))
 }
 
-func parseInteger(format, text string) *Integer {
+func parseInteger(format, text string) (*Integer, error) {
 	i := new(big.Int)
 	n, err := fmt.Sscanf(text, format, i)
-	maybePanic(err)
+	//maybePanic(err)
+	if err != nil {
+		return (*Integer)(i), err
+	}
 	if n == 0 {
 		panic("Parsed no integers")
 	}
@@ -59,12 +62,13 @@ func parseInteger(format, text string) *Integer {
 }
 
 // see "single quoted character" - §6.4.2.1
-func parseEscape(text string) *Integer {
+func parseEscape(text string) (*Integer, error) {
 	var r rune
 	if text[0] == '\\' {
 		if len(text) < 2 {
-			msg := fmt.Sprintf("Invalid integer character constant: %s", text)
-			panic(msg)
+			err := fmt.Errorf("Invalid integer character constant: %s", text)
+			//panic(msg)
+			return 0, err
 		}
 		switch text[1] {
 		// "meta escape sequence" - §6.4.2.1
@@ -105,8 +109,9 @@ func parseEscape(text string) *Integer {
 
 		// unexpected escape sequence
 		default:
-			msg := fmt.Sprintf("Invalid character escape sequence: %s", text)
-			panic(msg)
+			err := fmt.Errorf("Invalid character escape sequence: %s", text)
+			//panic(msg)
+			return 0, err
 		}
 	} else {
 		// "non quote char" - §6.4.2.1
@@ -114,7 +119,7 @@ func parseEscape(text string) *Integer {
 		r = runes[0]
 	}
 	code := int64(r)
-	return (*Integer)(big.NewInt(code))
+	return (*Integer)(big.NewInt(code)), nil
 }
 
 func (self *Integer) Value() *big.Int {

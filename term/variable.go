@@ -1,8 +1,11 @@
 package term
 
-import . "fmt"
-import . "regexp"
-import . "github.com/opless/golog/util"
+import (
+	"fmt"
+	. "fmt"
+	. "regexp"
+	. "github.com/opless/golog/util"
+)
 
 var anonCounter <-chan int64
 
@@ -26,12 +29,15 @@ type Variable struct {
 }
 
 // Creates a new logic variable with the given name.
-func NewVar(name string) *Variable {
+func NewVar(name string) (*Variable,error) {
 	// sanity check the variable name's syntax
 	isCapitalized, err := MatchString(`^[A-Z_]`, name)
-	maybePanic(err)
+	//maybePanic(err)
+	if err != nil {
+		return nil ,err
+	}
 	if !isCapitalized {
-		panic("Variable names must start with a capital letter or underscore")
+		return nil, fmt.Errorf("Variable names must start with a capital letter or underscore")
 	}
 
 	// make sure anonymous variables are unique
@@ -51,14 +57,17 @@ func (self *Variable) Id() int64 {
 }
 
 func (self *Variable) Functor() string {
+	// real panic
 	panic("Variables have no Functor()")
 }
 
 func (self *Variable) Arity() int {
+	// real panic
 	panic("Variables have no Arity()")
 }
 
 func (self *Variable) Arguments() []Term {
+	// real panic
 	panic("Variables have no Arguments()")
 }
 

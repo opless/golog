@@ -206,10 +206,10 @@ func Variables(t Term) ps.Map {
 
 // QuoteFunctor returns a canonical representation of a term's name
 // by quoting characters that require quoting
-func QuoteFunctor(name string) string {
+func QuoteFunctor(name string) (string, error) {
 	// cons must be quoted (to avoid confusion with full stop)
 	if name == "." || name == "" {
-		return Sprintf("'%s'", name)
+		return Sprintf("'%s'", name), nil
 	}
 
 	// names composed entirely of graphic characters need no quoting
@@ -221,18 +221,21 @@ func QuoteFunctor(name string) string {
 		}
 	}
 	if allGraphic || name == "[]" || name == "!" || name == ";" {
-		return name
+		return "", name, nil
 	}
 
 	nonAlpha, err := MatchString(`\W`, name)
-	maybePanic(err)
+	//maybePanic(err)
+	if err != nil {
+		return nil, err
+	}
 	nonLower, err := MatchString(`^[^a-z]`, name)
 	if nonAlpha || nonLower {
 		escapedName := strings.Replace(name, `'`, `\'`, -1)
 		return Sprintf("'%s'", escapedName)
 	}
 
-	return name
+	return "", name, nil
 }
 
 // NewCodeList constructs a list of character codes from a string.
@@ -491,8 +494,10 @@ func (self *TermSlice) Swap(i, j int) {
 	ts[j] = tmp
 }
 
-func maybePanic(err error) {
+/* No
+//func maybePanic(err error) {
 	if err != nil {
 		panic(err)
 	}
 }
+*/

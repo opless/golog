@@ -10,7 +10,8 @@ type PanicThrowerFunc func(err error)
 var ErrorThrower PanicThrowerFunc = nil
 
 // MaybePanic ...
-func MaybePanic(err error) {
+/*
+//func MaybePanic(err error) {
 	if err != nil {
 		fmt.Println("Panic:", err)
 
@@ -23,7 +24,7 @@ func MaybePanic(err error) {
 		}
 	}
 }
-
+*/
 // Debugging ...
 func Debugging() bool {
 	return os.Getenv("GOLOG_DEBUG") != ""

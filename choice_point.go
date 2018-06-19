@@ -55,7 +55,10 @@ func (cp *headbodyCP) Follow() (Machine, error) {
 	if err == term.CantUnify {
 		return nil, err
 	}
-	MaybePanic(err)
+	//MaybePanic(err)
+	if err != nil {
+		return ForeignException(err)
+	}
 
 	// yup, update the environment and top goal
 	if clause.Arity() == 2 && clause.Name() == ":-" {

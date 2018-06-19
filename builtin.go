@@ -67,7 +67,10 @@ func BuiltinIs(m Machine, args []term.Term) ForeignReturn {
 	value := args[0]
 	expression := args[1]
 	num, err := term.ArithmeticEval(expression)
-	MaybePanic(err)
+	//MaybePanic(err)
+	if err != nil {
+		return ForeignException(err)
+	}
 	return ForeignUnify(value, num)
 }
 
@@ -119,9 +122,15 @@ func BuiltinUnify(m Machine, args []term.Term) ForeignReturn {
 func BuiltinNumericEquals(m Machine, args []term.Term) ForeignReturn {
 	// evaluate each arithmetic argument
 	a, err := term.ArithmeticEval(args[0])
-	MaybePanic(err)
+	//MaybePanic(err)
+	if err != nil {
+		return ForeignException(err)
+	}
 	b, err := term.ArithmeticEval(args[1])
-	MaybePanic(err)
+	//MaybePanic(err)
+	if err != nil {
+		return ForeignException(err)
+	}
 
 	// perform the actual comparison
 	if term.NumberCmp(a, b) == 0 {
@@ -201,7 +210,10 @@ func BuiltinNot(m Machine, args []term.Term) ForeignReturn {
 		if err == MachineDone {
 			return ForeignTrue()
 		}
-		MaybePanic(err)
+		//MaybePanic(err)
+		if err != nil {
+			return ForeignException(err)
+		}
 		if answer != nil {
 			return ForeignFail()
 		}

@@ -74,12 +74,13 @@ func (self *envMap) Bind(v *Variable, val Term) (Bindings, error) {
 	// error slot in return is for attributed variables someday
 	return newEnv, nil
 }
+/* No
 func (self *envMap) Resolve_(v *Variable) Term {
 	r, err := self.Resolve(v)
-	maybePanic(err)
+	//maybePanic(err)
 	return r
 }
-
+*/
 func (self *envMap) Resolve(v *Variable) (Term, error) {
 	for {
 		t, err := self.Value(v)
@@ -119,12 +120,13 @@ func (self *envMap) ByName(name string) (Term, error) {
 	}
 	return self.Resolve(v.(*Variable))
 }
-
+/* No
 func (self *envMap) ByName_(name string) Term {
 	x, err := self.ByName(name)
-	maybePanic(err)
+	//maybePanic(err)
 	return x
 }
+*/
 
 func (self *envMap) String() string {
 	return self.bindings.String()

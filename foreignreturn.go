@@ -44,6 +44,16 @@ func ForeignUnify(ts ...term.Term) ForeignReturn {
 	return (*foreignUnify)(&ts)
 }
 
+func (*foreignUnify) IsaForeignReturn() {}
+
 type foreignUnify []term.Term
 
-func (*foreignUnify) IsaForeignReturn() {}
+// ForeignException indicates an error that's been thrown.
+func ForeignException(err error) ForeignReturn {
+	ex := err.Error()
+	return (*foreignException)(&ex)
+}
+
+type foreignException string
+
+func (*foreignException) IsaForeignReturn() {}

@@ -6,18 +6,20 @@ import "math/big"
 
 type Float float64
 
-func NewFloat(text string) Number {
+func NewFloat(text string) (Number,error) {
 	r, ok := NewRational(text)
 	if ok {
 		return r
 	}
 	f, err := strconv.ParseFloat(text, 64)
-	maybePanic(err)
+	if err != nil {
+		return (*Float)(&f),err
+	}
 	return (*Float)(&f)
 }
 
-func NewFloat64(f float64) *Float {
-	return (*Float)(&f)
+func NewFloat64(f float64) (*Float ,error) {
+	return (*Float)(&f) , nil
 }
 
 func (self *Float) Value() float64 {

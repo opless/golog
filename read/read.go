@@ -52,11 +52,13 @@ func Term(src interface{}) (term.Term, error) {
 
 // Term_ is like Term but panics instead of returning an error.
 // (Too bad Go doesn't allow ! as an identifier character)
+/* No.
 func Term_(src interface{}) term.Term {
 	t, err := Term(src)
-	maybePanic(err)
+//	maybePanic(err)
 	return t
 }
+*/
 
 // TermAll reads all available terms from the source
 func TermAll(src interface{}) ([]term.Term, error) {
@@ -68,12 +70,13 @@ func TermAll(src interface{}) ([]term.Term, error) {
 }
 
 // TermAll_ is like TermAll but panics instead of returning an error.
+/* No
 func TermAll_(src interface{}) []term.Term {
 	ts, err := TermAll(src)
-	maybePanic(err)
+//	maybePanic(err)
 	return ts
 }
-
+*/
 func toReader(src interface{}) (io.Reader, error) {
 	if r, ok := src.(io.Reader); ok {
 		return r, nil
@@ -439,8 +442,10 @@ func (r *TermReader) postfix(op *string, opP, argP *priority, i *lex.List, o **l
 	return true
 }
 
-func maybePanic(err error) {
+/*
+//func maybePanic(err error) {
 	if err != nil {
 		panic(err)
 	}
 }
+*/

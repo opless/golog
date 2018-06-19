@@ -272,13 +272,16 @@ func (m *machine) Consult(text interface{}) Machine {
 	return m1
 }
 
-func (m *machine) RegisterForeign(fs map[string]ForeignPredicate) Machine {
+func (m *machine) RegisterForeign(fs map[string]ForeignPredicate) (Machine, error) {
 	m1 := m.clone()
 	for indicator, f := range fs {
 		parts := strings.SplitN(indicator, "/", 2)
 		functor := parts[0]
 		arity, err := strconv.Atoi(parts[1])
-		MaybePanic(err)
+		//MaybePanic(err)
+		if err != nil {
+			return (m ,err) 
+		}
 
 		if arity < smallThreshold {
 			m1.smallForeign[arity] = m1.smallForeign[arity].Set(functor, f)
@@ -286,7 +289,7 @@ func (m *machine) RegisterForeign(fs map[string]ForeignPredicate) Machine {
 			m1.largeForeign = m1.largeForeign.Set(indicator, f)
 		}
 	}
-	return m1
+	return (m1, nil)
 }
 
 func (m *machine) String() string {
@@ -306,7 +309,7 @@ func (m *machine) String() string {
 // CanProve returns true if goal can be proven from facts and clauses
 // in the database.  Once a solution is found, it abandons other
 // solutions (like once/1).
-func (self *machine) CanProve(goal interface{}) bool {
+func (self *machine) CanProve(goal interface{}) (bool , error) {
 	var answer Bindings
 	var err error
 
@@ -317,14 +320,17 @@ func (self *machine) CanProve(goal interface{}) bool {
 		if err == MachineDone {
 			return answer != nil
 		}
-		MaybePanic(err)
+		//MaybePanic(err)
+		if err != nil {
+			return (false , err)
+		}
 		if answer != nil {
-			return true
+			return (true , nil)
 		}
 	}
 }
 
-func (self *machine) ProveAll(goal interface{}) []Bindings {
+func (self *machine) ProveAll(goal interface{}) ([]Bindings , error) {
 	var answer Bindings
 	var err error
 	answers := make([]Bindings, 0)
@@ -337,13 +343,16 @@ func (self *machine) ProveAll(goal interface{}) []Bindings {
 		if err == MachineDone {
 			break
 		}
-		MaybePanic(err)
+		//MaybePanic(err)
+		if err != nil {
+			return (answers , err )
+		}
 		if answer != nil {
 			answers = append(answers, answer.WithNames(vars))
 		}
 	}
 
-	return answers
+	return (answers , nil)
 }
 
 // advance the Golog machine one step closer to proving the goal at hand.
@@ -372,7 +381,10 @@ func (self *machine) Step() (Machine, Bindings, error) {
 			m = m.PushConj(NewAtom("fail")) // backtrack on next Step()
 			return m, answer, nil
 		}
-		MaybePanic(err)
+		//MaybePanic(err)
+		if err != nil {
+			return m, m.Bindings ,err
+		}
 		m = mTmp
 		arity = goal.Arity()
 		functor = goal.Name()
@@ -400,7 +412,10 @@ func (self *machine) Step() (Machine, Bindings, error) {
 					env = nil
 					break
 				}
-				MaybePanic(err)
+				//MaybePanic(err)
+				if err != nil {
+					return m, nil ,err
+				}
 			}
 			if env != nil {
 				return m.SetBindings(env), nil, nil
@@ -410,7 +425,10 @@ func (self *machine) Step() (Machine, Bindings, error) {
 		goal = goal.ReplaceVariables(m.Bindings()).(Callable)
 		Debugf("  running user-defined predicate %s\n", goal)
 		clauses, err := m.(*machine).db.Candidates(goal)
-		MaybePanic(err)
+		//MaybePanic(err)
+		if err != nil {
+			return m, nil ,err
+		}
 		m = m.DemandCutBarrier()
 		for i := len(clauses) - 1; i >= 0; i-- {
 			clause := clauses[i]
@@ -426,7 +444,10 @@ func (self *machine) Step() (Machine, Bindings, error) {
 			Debugf("Stopping because of EmptyDisjunctions\n")
 			return nil, nil, MachineDone
 		}
-		MaybePanic(err)
+		//MaybePanic(err)
+		if err != nil {
+			return m, nill ,err
+		}
 
 		// follow the next choice point
 		Debugf("  trying to follow CP %s\n", cp)
@@ -442,7 +463,10 @@ func (self *machine) Step() (Machine, Bindings, error) {
 			Debugf("  ... skipping over cut barrier\n")
 			continue
 		}
-		MaybePanic(err)
+		//MaybePanic(err)
+		if err != nil {
+			return m, nil ,err
+		}
 	}
 }
 
